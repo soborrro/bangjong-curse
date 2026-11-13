@@ -127,6 +127,91 @@
     font-family: var(--mono); font-size: 11px; letter-spacing: .12em; padding: 6px 10px; cursor: pointer;
   }
   #soundBtn:hover { color: var(--chalk); border-color: var(--muted); }
+  #helpBtn {
+    position: fixed; left: 108px; top: 16px; z-index: 14; width: 29px; height: 29px; background: none; border: 1px solid var(--line);
+    color: var(--muted); font-family: var(--serif); font-weight: 800; font-size: 14px; cursor: pointer;
+  }
+  #helpBtn:hover { color: var(--chalk); border-color: var(--muted); }
+
+  /* ---------- 희귀 불행 ---------- */
+  #ovfx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #overlay::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    background: radial-gradient(ellipse at center, #fff6dc 0%, #e2b25a99 25%, #a8231b55 55%, transparent 80%);
+  }
+  #overlay.rare::before { animation: rareFlash 1.1s ease-out; }
+  @keyframes rareFlash { 0% { opacity: 0; } 8% { opacity: 1; } 100% { opacity: 0; } }
+  #overlay.rare .ticker {
+    animation: rareSlam .7s cubic-bezier(.2,1.5,.4,1);
+    box-shadow: 0 0 0 2px #e2b25a, 0 0 34px #e2b25aaa, 0 0 90px #a8231b88, 0 20px 40px #000;
+  }
+  @keyframes rareSlam {
+    0% { transform: scale(1.18); } 18% { transform: scale(.94) rotate(-1.2deg); } 34% { transform: scale(1.04) rotate(1deg); }
+    52% { transform: translateX(-8px) rotate(-.6deg); } 68% { transform: translateX(6px); } 84% { transform: translateX(-3px); } 100% { transform: none; }
+  }
+  #overlay.rare .ticker .mark { border-color: #c8901e; background: linear-gradient(90deg, #e2b25a22, #e2b25a55, #e2b25a22); }
+  #overlay.rare .rows div.mid { color: #6e0e0e; }
+  #overlay.rare .ov-label {
+    font-family: var(--serif); font-weight: 800; font-size: 30px; letter-spacing: .3em; color: #f2c96a;
+    text-shadow: 0 0 18px #e2b25a, 0 0 40px #a8231b; animation: rareLabel .6s cubic-bezier(.2,1.6,.4,1);
+  }
+  @keyframes rareLabel { from { transform: scale(2.4); opacity: 0; letter-spacing: .8em; } }
+  #overlay.rare .result .why { color: #f3dcae; font-size: 19px; }
+  #overlay.rare .result .rare-tag { display: none; }
+  #overlay.suspense .ticker { animation: suspense .18s linear infinite; box-shadow: 0 0 0 1px #e2b25a66, 0 0 26px #e2b25a44, 0 20px 40px #000; }
+  @keyframes suspense { 50% { transform: translate(1px, -1px); } }
+  #overlay.suspense .ov-label { color: #e2b25a; }
+  .target.hit.big .photo { animation: shakeBig .9s; }
+  @keyframes shakeBig {
+    0%,100% { transform: rotate(2.2deg); } 8% { transform: translate(-18px, 4px) rotate(-6deg) scale(1.03); }
+    18% { transform: translate(16px, -4px) rotate(8deg); } 30% { transform: translate(-12px, 2px) rotate(-4deg); }
+    44% { transform: translate(9px, 0) rotate(5deg); } 60% { transform: translate(-5px, 0) rotate(0deg); } 78% { transform: translate(3px, 0) rotate(3deg); }
+  }
+
+  /* ---------- 안내창 ---------- */
+  #intro {
+    position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 16px;
+    background: radial-gradient(ellipse at center, #000000b8, #000000f2); backdrop-filter: blur(3px);
+    opacity: 0; pointer-events: none; transition: opacity .35s;
+  }
+  #intro.open { opacity: 1; pointer-events: auto; }
+  .notice {
+    position: relative; width: min(440px, 100%); background: var(--paper); color: var(--ink); padding: 30px 30px 26px;
+    box-shadow: 0 30px 60px #000, 0 2px 0 #fff8 inset; transform: rotate(-1deg) translateY(10px); transition: transform .45s cubic-bezier(.2,1.3,.4,1);
+  }
+  #intro.open .notice { transform: rotate(-1deg); }
+  .notice::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: .55;
+    background: radial-gradient(ellipse 80% 70% at 50% 45%, transparent 55%, #8a5a2a55 100%);
+  }
+  .notice .nail { position: absolute; top: 10px; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #d8d2c8, #5a5550 70%); box-shadow: 0 2px 2px #0006; }
+  .notice .eb { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; color: #7a6a58; text-align: center; margin-top: 4px; }
+  .notice h3 { font-family: var(--serif); font-weight: 800; font-size: 28px; text-align: center; margin: 8px 0 4px; letter-spacing: -.01em; }
+  .notice h3 em { font-style: normal; color: var(--red); }
+  .notice .sub { text-align: center; color: #6a5a48; font-size: 14px; margin-bottom: 18px; }
+  .notice ol { list-style: none; padding: 0; margin: 0; border-top: 1.5px dashed #8a7a66; }
+  .notice li { display: grid; grid-template-columns: 34px 1fr; gap: 6px; padding: 11px 0; border-bottom: 1.5px dashed #8a7a66; font-size: 15px; line-height: 1.5; word-break: keep-all; }
+  .notice li b { font-family: var(--serif); font-weight: 800; color: var(--red); font-size: 18px; }
+  .notice .fine { margin-top: 14px; font-size: 12px; color: #7a6a58; line-height: 1.6; text-align: center; }
+  .notice button {
+    display: block; margin: 18px auto 0; font-family: var(--serif); font-weight: 800; font-size: 17px; letter-spacing: .14em;
+    color: var(--red); background: transparent; border: 2.5px solid var(--red); padding: 10px 26px; cursor: pointer;
+    box-shadow: inset 0 0 0 2px var(--paper), inset 0 0 0 3.5px var(--red);
+  }
+  .notice button:hover { background: #a8231b14; }
+  .notice .seal-mark {
+    position: absolute; right: 22px; top: 26px; width: 62px; height: 62px; border: 2px solid var(--red); border-radius: 50%;
+    display: grid; place-items: center; text-align: center; color: var(--red); font-family: var(--serif); font-weight: 800; font-size: 12px; line-height: 1.15;
+    transform: rotate(14deg); opacity: .7; mix-blend-mode: multiply;
+  }
+  .deck { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .08em; margin-top: 6px; }
+  #deckToast {
+    position: fixed; left: 50%; top: 22px; z-index: 25; transform: translate(-50%, -20px); opacity: 0; pointer-events: none;
+    background: #0f0b09f2; border: 1px solid #e2b25a88; color: #f0d79c; padding: 10px 16px; font-family: var(--serif); font-size: 14px;
+    transition: .35s; white-space: nowrap; box-shadow: 0 10px 30px #000a;
+  }
+  #deckToast.show { opacity: 1; transform: translate(-50%, 0); }
   .target.banished .photo { animation: banish 1.9s ease-in forwards; }
   @keyframes banish {
     0% { transform: rotate(2.2deg); }
@@ -268,6 +353,12 @@
     #altar { width: min(78vw, 38dvh, 300px); margin-top: auto; }
     .hint { font-size: 10px; letter-spacing: .1em; margin-bottom: 4px; text-align: center; }
     #soundBtn { top: auto; bottom: 12px; left: 12px; font-size: 10px; padding: 5px 8px; background: #15100dcc; }
+    #helpBtn { top: auto; bottom: 12px; left: 92px; width: 25px; height: 25px; font-size: 12px; background: #15100dcc; }
+    .notice { padding: 26px 20px 22px; }
+    .notice h3 { font-size: 24px; }
+    .notice .seal-mark { width: 42px; height: 42px; font-size: 9px; right: 8px; top: 8px; }
+    .notice li { font-size: 14px; }
+    #overlay.rare .ov-label { font-size: 22px; }
     .tab { left: -32px; width: 32px; top: auto; bottom: 70px; transform: none; font-size: 12px; padding: 14px 0 10px; }
     .rows div { font-size: 14px; padding: 0 26px; }
     .rows div.mid { font-size: 16px; }
@@ -334,6 +425,7 @@
     <div class="top">
       <div class="eyebrow">LEDGER</div>
       <h2>접수 장부 <span><span id="cnt">0건</span><button class="closeBtn" id="closeDrawer" title="닫기">×</button></span></h2>
+      <div class="deck" id="deckInfo"></div>
     </div>
     <ol id="ledger"><li class="empty">아직 접수된 저주가 없습니다.<br>인형을 찔러 첫 저주를 접수해 보세요.</li></ol>
     <div class="bottom">
@@ -346,6 +438,25 @@
 <canvas id="fx"></canvas>
 <div id="flash"></div>
 <button id="soundBtn">소리 켜짐</button>
+<button id="helpBtn" title="의식 안내">?</button>
+<div id="deckToast"></div>
+<div id="intro" class="open">
+  <div class="notice" role="dialog" aria-labelledby="introTitle">
+    <div class="nail"></div>
+    <div class="seal-mark">이드<br>저주<br>연구소</div>
+    <div class="eb">제 0820호 의식 · 안내서</div>
+    <h3 id="introTitle">방종요정 <em>저주</em> 의식</h3>
+    <div class="sub">방송이 끝날 때마다 나타나는 방종요정을 하찮게 저주하세요.</div>
+    <ol>
+      <li><b>一</b><span>마법진 위의 <strong>짚인형을 콕</strong> 찌르세요.</span></li>
+      <li><b>二</b><span>룰렛이 돌아가며 방종요정에게 내릴 <strong>하찮은 불행</strong>이 정해집니다. 가끔 <strong>희귀 불행</strong>도 나와요.</span></li>
+      <li><b>三</b><span>화면을 누르면 인형에서 <strong>불길한 기운</strong>이 방종요정에게 날아갑니다.</span></li>
+      <li><b>四</b><span>저주할 때마다 봉인 불이 하나씩 켜지고, <strong>다섯 개를 모두 밝히면</strong> 방종요정을 물리칩니다.</span></li>
+    </ol>
+    <div class="fine">한 번 나온 불행은 모든 불행을 다 겪을 때까지 다시 나오지 않습니다.<br>소리가 나니 음량을 확인해 주세요. · 본 저주는 실제 효력이 없습니다.</div>
+    <button id="introBtn">의식 시작</button>
+  </div>
+</div>
 <div id="victory">
   <div class="eyebrow">의식 완료 · 봉인 5 / 5</div>
   <h2>방종요정을 <em>물리쳤다</em></h2>
@@ -354,6 +465,7 @@
   <button id="againBtn">다시 의식 시작</button>
 </div>
 <div id="overlay">
+  <canvas id="ovfx"></canvas>
   <div class="ov-label">불행 추첨 중</div>
   <div class="ticker">
     <div class="mark"></div>
@@ -416,10 +528,26 @@ let lit = 0, roundRare = 0;                       // 이번 의식에서 켜진 
 
 const rnd = n => Math.floor(Math.random() * n);
 const pad = (n, w = 2) => String(n).padStart(w, "0");
+// ---------- 불행 덱: 한 번 나온 불행은 전부 나올 때까지 다시 안 나옴 ----------
+const DECK_KEY = "bj-seen-v1";
+let seen = new Set();
+try { JSON.parse(localStorage.getItem(DECK_KEY) || "[]").forEach(t => { if (CURSES.some(c => c[0] === t)) seen.add(t); }); } catch (e) {}
+function saveSeen() { try { localStorage.setItem(DECK_KEY, JSON.stringify([...seen])); } catch (e) {} }
 function pickCurse() {
-  let c;
-  do { c = CURSES[rnd(CURSES.length)]; } while (c[2] && Math.random() > 0.3);
-  return c;
+  if (seen.size >= CURSES.length) seen.clear();
+  const left = CURSES.filter(c => !seen.has(c[0]));
+  const w = left.map(c => c[2] ? 0.3 : 1);            // 희귀는 잘 안 나오게
+  let r = Math.random() * w.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < left.length; i++) { r -= w[i]; if (r <= 0) return left[i]; }
+  return left[left.length - 1];
+}
+function renderDeck() {
+  const el = $("deckInfo");
+  if (el) el.textContent = `남은 불행 ${CURSES.length - seen.size} / ${CURSES.length}`;
+}
+function toast(msg) {
+  const t = $("deckToast"); t.textContent = msg;
+  t.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("show"), 2600);
 }
 
 // 인형 좌표(SVG 기준)로 부위 판정
@@ -474,15 +602,18 @@ function openRoulette(part) {
   $("result").className = "result";
   ov.classList.add("open");
 
+  ov.classList.remove("rare", "suspense");
   const final = pickCurse();
-  const seq = Array.from({ length: 24 }, () => CURSES[rnd(CURSES.length)][0]);
+  const extra = final[2] ? 4 : 0;                     // 희귀 불행이면 조금 더 뜸을 들임
+  const seq = Array.from({ length: 24 + extra }, () => CURSES[rnd(CURSES.length)][0]);
   seq.push(final[0], CURSES[rnd(CURSES.length)][0]);
   let i = 1, delay = 45;
   (function tick() {
     rows[0].textContent = seq[i - 1]; rows[1].textContent = seq[i]; rows[2].textContent = seq[i + 1];
     SFX.tick(i);
-    if (i < seq.length - 2) { i++; delay *= 1.11; setTimeout(tick, delay); }
-    else setTimeout(() => land(final, part), 250);
+    if (extra && i === seq.length - 7) { ov.classList.add("suspense"); ov.querySelector(".ov-label").textContent = "…뭔가 이상하다"; }
+    if (i < seq.length - 2) { i++; delay = Math.min(delay * 1.11, extra ? 620 : 1e4); setTimeout(tick, delay); }
+    else setTimeout(() => land(final, part), extra ? 450 : 250);
   })();
 }
 
@@ -493,9 +624,20 @@ function land([title, desc, rare], part) {
   const now = new Date();
   const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
-  $("overlay").querySelector(".ov-label").textContent = rare ? "희귀 불행 당첨" : "불행 당첨";
+  const ov = $("overlay");
+  ov.classList.remove("suspense");
+  ov.querySelector(".ov-label").textContent = rare ? "희귀 불행" : "불행 당첨";
   $("why").textContent = desc;
   SFX.land(rare);
+  if (rare) {
+    void ov.offsetWidth; ov.classList.add("rare");
+    SFX.rare();
+    rareBurst();
+    if (navigator.vibrate) try { navigator.vibrate([70, 40, 140]); } catch (e) {}
+  }
+  seen.add(title); saveSeen(); renderDeck();
+  const allDone = seen.size >= CURSES.length;
+  if (allDone) { seen.clear(); saveSeen(); setTimeout(() => { toast("모든 불행을 다 겪었다… 불행 목록이 다시 섞입니다"); renderDeck(); }, 900); }
   const r = $("result");
   r.className = "result" + (rare ? " rare" : "");
   void r.offsetWidth; r.classList.add("show");
@@ -503,15 +645,15 @@ function land([title, desc, rare], part) {
   log.unshift({ n: count, title, part, rare, time });
   log = log.slice(0, 60);
   renderLedger();
-  setTimeout(() => { state = "done"; $("overlay").classList.add("done"); }, 500);
+  setTimeout(() => { state = "done"; $("overlay").classList.add("done"); }, rare ? 1100 : 500);
 }
 
 function closeRoulette() {
   if (state !== "done") return;
   state = "fx";
-  $("overlay").classList.remove("open", "done");
+  $("overlay").classList.remove("open", "done", "rare");
   // 인형에서 불길한 기운이 나와 방종요정에게 날아간 뒤 반응
-  setTimeout(() => curseFx(hitFairy), 200);
+  setTimeout(() => curseFx(hitFairy, lastRare), 200);
 }
 
 function hitFairy() {
@@ -520,12 +662,46 @@ function hitFairy() {
   state = lit >= 5 ? "victory" : "idle";
   setTimeout(() => lightUp(lit), 350);
   const t = $("target");
-  t.classList.remove("hit"); void t.offsetWidth; t.classList.add("hit");
+  t.classList.remove("hit", "big"); void t.offsetWidth; t.classList.add("hit"); if (lastRare) t.classList.add("big");
+  if (lastRare) {
+    const main = document.querySelector("main");
+    main.classList.remove("shake"); void main.offsetWidth; main.classList.add("shake");
+    const fl = $("flash"); fl.classList.remove("on"); void fl.offsetWidth; fl.classList.add("on");
+    if (navigator.vibrate) try { navigator.vibrate([40, 30, 90]); } catch (e) {}
+  }
   const b = $("bubble");
   b.textContent = lit >= 5 ? "으아아 안 돼!!" : lastRare ? "이건 너무하잖아!!" : REACT[rnd(REACT.length)];
   b.classList.add("show");
   clearTimeout(closeRoulette.t); closeRoulette.t = setTimeout(() => b.classList.remove("show"), 1800);
   if (lit >= 5) setTimeout(victory, 1300);
+}
+
+// ---------- 희귀 불행: 룰렛에서 금빛·핏빛 불티가 터짐 ----------
+function rareBurst() {
+  const cv = $("ovfx"), c2 = cv.getContext("2d"), d = window.devicePixelRatio || 1;
+  cv.width = innerWidth * d; cv.height = innerHeight * d; c2.setTransform(d, 0, 0, d, 0, 0);
+  const tk = document.querySelector(".ticker").getBoundingClientRect();
+  const cx = tk.left + tk.width / 2, cy = tk.top + tk.height / 2;
+  const ps = Array.from({ length: 150 }, () => {
+    const a = Math.random() * Math.PI * 2, sp = 3 + Math.random() * 11;
+    return { x: cx + (Math.random() - .5) * tk.width * .6, y: cy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp * .7 - 2,
+             r: 1 + Math.random() * 2.6, col: Math.random() < .65 ? "255,214,120" : "230,60,40", life: 700 + Math.random() * 700 };
+  });
+  const start = performance.now(); let last = start;
+  (function frame(now) {
+    const dt = Math.min(2.5, (now - last) / 16.7); last = now;
+    const el = now - start;
+    c2.clearRect(0, 0, innerWidth, innerHeight);
+    c2.globalCompositeOperation = "lighter";
+    let alive = false;
+    for (const p of ps) {
+      const t = el / p.life; if (t > 1) continue; alive = true;
+      p.vy += .18 * dt; p.vx *= .985; p.x += p.vx * dt; p.y += p.vy * dt;
+      c2.fillStyle = `rgba(${p.col},${(1 - t) * .95})`;
+      c2.beginPath(); c2.arc(p.x, p.y, p.r * (1 - t * .4), 0, 7); c2.fill();
+    }
+    if (alive) requestAnimationFrame(frame); else c2.clearRect(0, 0, innerWidth, innerHeight);
+  })(start);
 }
 
 // ---------- 핀 박힐 때 짚 부스러기 ----------
@@ -700,6 +876,18 @@ const SFX = {
     osc("sine", f, null, t + 0.05, 1.2, 0.18);
     osc("sine", f * 2.01, null, t + 0.05, 0.7, 0.05);
   },
+  rare() {            // 희귀 불행: 묵직한 굉음 + 빨려드는 소리 + 금빛 종소리
+    if (muted) return; audio(); const t = AC.currentTime;
+    osc("sine", 70, 26, t, 1.3, 1.0);
+    osc("triangle", 140, 50, t, .5, .35);
+    hiss(t, .5, .5, "lowpass", 4000, 200, .7);
+    hiss(t, .06, .8, "highpass", 3000, null, .7);
+    [523.3, 659.3, 784, 1046.5, 1318.5].forEach((f, k) => {
+      osc("sine", f, null, t + .08 + k * .05, 1.6, .09);
+      osc("sine", f * 2.76, null, t + .08 + k * .05, .5, .025);
+    });
+    [110, 116.5].forEach(f => osc("sawtooth", f, null, t, 1.4, .05));
+  },
   victory() {         // 퇴치: 굉음 + 불타는 소리 + 장엄한 종
     if (muted) return; audio(); const t = AC.currentTime;
     osc("sine", 90, 28, t, 1.6, 0.9);
@@ -773,7 +961,7 @@ function sizeFx() {
 }
 sizeFx(); addEventListener("resize", sizeFx);
 
-function curseFx(onHit) {
+function curseFx(onHit, big) {
   const a = $("doll").getBoundingClientRect();
   const b = $("target").querySelector(".photo").getBoundingClientRect();
   const sx = a.left + a.width / 2, sy = a.top + a.height * 0.45;
@@ -782,7 +970,7 @@ function curseFx(onHit) {
   altar.classList.add("aura");
   SFX.whoosh();
 
-  const ps = Array.from({ length: 130 }, () => ({
+  const ps = Array.from({ length: big ? 240 : 130 }, () => ({
     delay: Math.random() * 700,
     dur: 800 + Math.random() * 500,
     ox: (Math.random() - .5) * a.width * .7,
@@ -790,7 +978,7 @@ function curseFx(onHit) {
     side: (Math.random() < .5 ? -1 : 1) * (50 + Math.random() * 170),
     wob: Math.random() * 6.28,
     size: 10 + Math.random() * 22,
-    col: Math.random() < .6 ? "160,22,38" : (Math.random() < .6 ? "95,30,140" : "40,10,20"),
+    col: big && Math.random() < .35 ? "226,170,70" : Math.random() < .6 ? "160,22,38" : (Math.random() < .6 ? "95,30,140" : "40,10,20"),
   }));
   const start = performance.now();
   let hit = false;
@@ -845,7 +1033,26 @@ $("doll").addEventListener("click", e => {
 });
 $("overlay").addEventListener("click", closeRoulette);
 document.addEventListener("keydown", e => { if (e.key === "Escape" || e.key === " " || e.key === "Enter") closeRoulette(); });
-$("clearBtn").onclick = () => { log = []; count = 0; renderLedger(); };
+$("clearBtn").onclick = () => { log = []; count = 0; seen.clear(); saveSeen(); renderLedger(); renderDeck(); };
+renderDeck();
+
+// ---------- 안내창 ----------
+(function intro() {
+  let visited = false;
+  try { visited = localStorage.getItem("bj-intro-v1") === "1"; } catch (e) {}
+  const box = $("intro");
+  if (visited) box.classList.remove("open");
+  const close = e => {
+    if (e) e.stopPropagation();
+    box.classList.remove("open");
+    try { localStorage.setItem("bj-intro-v1", "1"); } catch (err) {}
+    audio();                                          // 첫 터치에 소리 준비
+  };
+  $("introBtn").onclick = close;
+  box.addEventListener("click", e => { if (e.target === box) close(e); });
+  $("helpBtn").onclick = e => { e.stopPropagation(); box.classList.add("open"); };
+  document.addEventListener("keydown", e => { if (box.classList.contains("open") && (e.key === "Escape" || e.key === "Enter")) close(); }, true);
+})();
 $("againBtn").onclick = e => { e.stopPropagation(); resetRitual(); };
 $("tab").onclick = e => { e.stopPropagation(); $("drawer").classList.toggle("open"); };
 $("closeDrawer").onclick = () => $("drawer").classList.remove("open");
